@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import socket
+import time
+
+host = "127.0.0.1"
+port = 5001
+
+mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mySocket.bind(("127.0.0.1", 5001))
+
+mySocket.listen(1)
+conn, addr = mySocket.accept()
+print("Connection from: " + str(addr))
+
+while True:
+    data = conn.recv(1024).decode("utf-8")
+    if not data:
+        break
+    print("from connected user: " + str(data))
+    data = str(data).upper()
+    print("Received from User: " + str(data))
+    data = input(" ? ")
+    conn.send(data.encode("utf-8"))
+    conn.close()

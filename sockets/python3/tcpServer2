@@ -14,12 +14,12 @@ conn, addr = mySocket.accept()
 print("Connection from: " + str(addr))
 
 while True:
-    data = conn.recv(1024).decode("utf-8")
+    data = conn.recv(1024).decode("utf8")
     if not data:
         break
     print("from connected user: " + str(data))
     data = str(data).upper()
     print("Received from User: " + str(data))
     data = input(" ? ")
-    conn.send(data.encode("utf-8"))
-    conn.close()
+    conn.send(data.encode("utf8"))
+conn.close()

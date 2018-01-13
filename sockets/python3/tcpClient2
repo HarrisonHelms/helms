@@ -11,8 +11,8 @@ mySocket.connect(("127.0.0.1",5001))
 message = input(" ? ")
 
 while message != "q":
-    mySocket.send(message.encode("utf-8"))
-    data = mySocket.recv(1024).decode("utf-8")
+    mySocket.send(message.encode("utf8"))
+    data = mySocket.recv(1024).decode("utf8")
 
     print("Received from server: " + data)
 

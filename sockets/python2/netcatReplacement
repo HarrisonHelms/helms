@@ -29,7 +29,7 @@ def usage():
     print "Examples: "
     print "bhpnet.py -t 192.168.0.1 -p 5555 -l -c"
     print "bhpnet.py -t 192.168.0.1 -p 5555 -l -u=c:\\target.exe"
-    print "bhpnet.py -t 192.168.0.1 -p 5555 -l -e=\"cat /etc/passwd\"
+    print "bhpnet.py -t 192.168.0.1 -p 5555 -l -e=\"cat /etc/passwd\""
     print "echo 'ABCDEFGHI' | ./bhpnet.py -t 192.168.11.12 -p 135"
     sys.exit(0)
 
@@ -43,29 +43,28 @@ def client_sender(buffer):
 
         if len(buffer):
             client.send(buffer)
-    while True:
+        while True:
+            #now wait for data back
+            recv_len = 1
+            response = ""
 
-        #now wait for data back
-        recv_len = 1
-        response = ""
+            while recv_len:
 
-        while recv_len:
+                data = client.recv(1024)
+                recv_len = len(data)
+                response+=data
 
-            data = client.recv(1024)
-            recv_len = len(data)
-            response+=data
+                if recv_len < 4096:
+                    break
 
-            if recv_len < 4096:
-                break
+            print response,
 
-        print response,
+            # wait for more input
+            buffer = raw_input("")
+            buffer += "\n"
 
-        # wait for more input
-        buffer = raw_input("")
-        buffer += "\n"
-
-        #send it off 
-        client.send(buffer)
+            #send it off 
+            client.send(buffer)
 
     except:
         print "[*] Exception! Exiting."
@@ -151,8 +150,7 @@ def client_handler(client_socket):
             # show a simple prompt
             client_socket.send("<BHP:#> ")
 
-                # now we receive until we see a linefeed 
-                (enter key)
+                # now we receive until we see a linefeed (enter key)
             cmd_buffer = ""
             while "\n" not in cmd_buffer:
                 cmd_buffer += client_socket.recv(1024)
@@ -169,7 +167,8 @@ def main():
     global port
     global execute
     global command
-    global upload_destinationglobal target
+    global upload_destination
+    global target
     if not len(sys.argv[1:]):
         usage()
     
@@ -199,7 +198,6 @@ def main():
         else:
             assert False,"Unhandled Option"
 
-        
     #are we going to listen or just send data from stdin?
     if not listen and len(target) and port > 0:
 

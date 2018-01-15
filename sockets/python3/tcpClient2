@@ -3,10 +3,10 @@
 import socket
 
 host = "127.0.0.1"
-port = 5001
+port = 9999
 
 mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-mySocket.connect(("127.0.0.1",5001))
+mySocket.connect(("127.0.0.1",9999))
 
 message = input(" ? ")
 

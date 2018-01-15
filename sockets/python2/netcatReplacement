@@ -97,7 +97,7 @@ def run_command(command):
 
     # run the command and get the output back
     try:
-        output = subprocess.check_output(command,stderr= subproccess.STDOUT, shell=True)
+        output = subprocess.check_output(command,stderr=subprocess.STDOUT, shell=True)
     except:
         output = "Failed to execute command.\r\n"
 
@@ -174,8 +174,7 @@ def main():
     
     #read the commandline options
     try:
-        opts, args = getot.getopt(sys.argv[1:], "hle:t:p:cu:"
-        ["help", "listen", "execute", "target", "port", "command","upload"])
+        opts, args = getopt.getopt(sys.argv[1:], "hle:t:p:cu:", ["help", "listen", "execute", "target", "port", "command","upload"])
     except getopt.GetoptError as err:
         print str(err)
         usage()
